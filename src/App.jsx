@@ -1,17 +1,17 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
-import PaymentStatusScreen from './PaymentStatusScreen'
+import KYCInitiator from './KYCInitiator'
 import KYCStatusScreen from './KYCStatusScreen'
 import PaymentInitiator from './PaymentInitiator'
-import KYCInitiator from './KYCInitiator'
+import PaymentStatusScreen from './PaymentStatusScreen'
 
 const DEFAULT_URLS = [
-	{ id: 1, label: 'Google',         url: 'https://www.google.com',          category: 'Search' },
-	{ id: 2, label: 'GitHub',         url: 'https://www.github.com',          category: 'Dev'    },
-	{ id: 3, label: 'YouTube',        url: 'https://www.youtube.com',         category: 'Media'  },
-	{ id: 4, label: 'MDN Docs',       url: 'https://developer.mozilla.org',   category: 'Dev'    },
-	{ id: 5, label: 'NPM',            url: 'https://www.npmjs.com',           category: 'Dev'    },
-	{ id: 6, label: 'Stack Overflow', url: 'https://stackoverflow.com',       category: 'Dev'    },
+	{ id: 1, label: 'Google', url: 'https://www.google.com', category: 'Search' },
+	{ id: 2, label: 'GitHub', url: 'https://www.github.com', category: 'Dev' },
+	{ id: 3, label: 'YouTube', url: 'https://www.youtube.com', category: 'Media' },
+	{ id: 4, label: 'MDN Docs', url: 'https://developer.mozilla.org', category: 'Dev' },
+	{ id: 5, label: 'NPM', url: 'https://www.npmjs.com', category: 'Dev' },
+	{ id: 6, label: 'Stack Overflow', url: 'https://stackoverflow.com', category: 'Dev' },
 ]
 
 const CATEGORIES = ['All', 'Search', 'Dev', 'Media', 'Custom']
@@ -28,11 +28,11 @@ function readCallbackParams() {
 		return {
 			source: 'razorpay',
 			paymentStatus: 'success',
-			txnId:    p.get('razorpay_payment_id'),
-			orderId:  p.get('razorpay_order_id'),
+			txnId: p.get('razorpay_payment_id'),
+			orderId: p.get('razorpay_order_id'),
 			signature: p.get('razorpay_signature'),
-			amount:   p.get('amount'),
-			screen:   p.get('screen'),
+			amount: p.get('amount'),
+			screen: p.get('screen'),
 		}
 	}
 	// Razorpay failure
@@ -49,10 +49,10 @@ function readCallbackParams() {
 		return {
 			source: 'payu',
 			paymentStatus: p.get('status') === 'success' ? 'success' : 'failed',
-			txnId:            p.get('txnid'),
-			amount:           p.get('amount'),
+			txnId: p.get('txnid'),
+			amount: p.get('amount'),
 			errorDescription: p.get('error_Message'),
-			screen:           p.get('screen'),
+			screen: p.get('screen'),
 		}
 	}
 	// CCAvenue
@@ -60,7 +60,7 @@ function readCallbackParams() {
 		return {
 			source: 'ccavenue',
 			paymentStatus: p.get('order_status') === 'Success' ? 'success' : 'failed',
-			txnId:  p.get('tracking_id'),
+			txnId: p.get('tracking_id'),
 			amount: p.get('amount'),
 			screen: p.get('screen'),
 		}
@@ -68,20 +68,20 @@ function readCallbackParams() {
 	// DigiLocker success (OAuth2 code)
 	if (p.get('code') && p.get('state')) {
 		return {
-			source:       'digilocker',
+			source: 'digilocker',
 			aadharStatus: 'pending_verification',
-			authCode:     p.get('code'),
-			state:        p.get('state'),
-			screen:       p.get('screen'),
+			authCode: p.get('code'),
+			state: p.get('state'),
+			screen: p.get('screen'),
 		}
 	}
 	// DigiLocker failure
 	if (p.get('error') && p.get('error_description')) {
 		return {
-			source:           'digilocker',
-			aadharStatus:     'failed',
+			source: 'digilocker',
+			aadharStatus: 'failed',
 			errorDescription: p.get('error_description'),
-			screen:           p.get('screen'),
+			screen: p.get('screen'),
 		}
 	}
 
@@ -117,7 +117,7 @@ function isValidUrl(str) {
 }
 
 function isPaymentResult(r) { return r?.paymentStatus != null }
-function isKYCResult(r)     { return r?.aadharStatus  != null }
+function isKYCResult(r) { return r?.aadharStatus != null }
 
 // ---------------------------------------------------------------------------
 // Demo mock results (for previewing screens without a real gateway)
@@ -153,13 +153,13 @@ const DEMO_RESULTS = {
 // ---------------------------------------------------------------------------
 
 export default function App() {
-	const [urls,      setUrls]      = useState(DEFAULT_URLS)
-	const [history,   setHistory]   = useState([])
-	const [filter,    setFilter]    = useState('All')
-	const [search,    setSearch]    = useState('')
-	const [newLabel,  setNewLabel]  = useState('')
-	const [newUrl,    setNewUrl]    = useState('')
-	const [error,     setError]     = useState('')
+	const [urls, setUrls] = useState(DEFAULT_URLS)
+	const [history, setHistory] = useState([])
+	const [filter, setFilter] = useState('All')
+	const [search, setSearch] = useState('')
+	const [newLabel, setNewLabel] = useState('')
+	const [newUrl, setNewUrl] = useState('')
+	const [error, setError] = useState('')
 	const [confirmId, setConfirmId] = useState(null)
 	const [callbackResult, setCallbackResult] = useState(null)
 
@@ -172,7 +172,7 @@ export default function App() {
 	}, [])
 
 	const filtered = urls.filter(item => {
-		const matchCat    = filter === 'All' || item.category === filter
+		const matchCat = filter === 'All' || item.category === filter
 		const matchSearch =
 			item.label.toLowerCase().includes(search.toLowerCase()) ||
 			item.url.toLowerCase().includes(search.toLowerCase())
@@ -213,15 +213,15 @@ export default function App() {
 
 	const sharedActions = {
 		onContinue: () => setCallbackResult(null),
-		onRetry:    () => setCallbackResult(null),
-		onHome:     () => setCallbackResult(null),
+		onRetry: () => setCallbackResult(null),
+		onHome: () => setCallbackResult(null),
 	}
 
 	// Route to the correct status screen
 	if (callbackResult) {
 		return isPaymentResult(callbackResult)
 			? <PaymentStatusScreen result={callbackResult} {...sharedActions} />
-			: <KYCStatusScreen     result={callbackResult} {...sharedActions} />
+			: <KYCStatusScreen result={callbackResult} {...sharedActions} />
 	}
 
 	return (
