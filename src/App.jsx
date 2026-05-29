@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import PaymentStatusScreen from './PaymentStatusScreen'
 import KYCStatusScreen from './KYCStatusScreen'
+import PaymentInitiator from './PaymentInitiator'
+import KYCInitiator from './KYCInitiator'
 
 const DEFAULT_URLS = [
 	{ id: 1, label: 'Google',         url: 'https://www.google.com',          category: 'Search' },
@@ -232,17 +234,8 @@ export default function App() {
 			<div className="layout">
 				<main className="main">
 
-					{/* Demo preview strip */}
-					<section className="demo-section">
-						<h2>Preview Screens</h2>
-						<div className="demo-strip">
-							<button className="demo-btn demo-pay-ok"  onClick={() => setCallbackResult(DEMO_RESULTS.paymentSuccess)}>Payment Success</button>
-							<button className="demo-btn demo-pay-fail" onClick={() => setCallbackResult(DEMO_RESULTS.paymentFailed)}>Payment Failed</button>
-							<button className="demo-btn demo-kyc-wait" onClick={() => setCallbackResult(DEMO_RESULTS.kycPending)}>KYC Pending</button>
-							<button className="demo-btn demo-kyc-ok"   onClick={() => setCallbackResult(DEMO_RESULTS.kycVerified)}>KYC Verified</button>
-							<button className="demo-btn demo-kyc-fail" onClick={() => setCallbackResult(DEMO_RESULTS.kycFailed)}>KYC Failed</button>
-						</div>
-					</section>
+					<PaymentInitiator />
+					<KYCInitiator />
 
 					<div className="toolbar">
 						<input
