@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
 import './index.css';
-(function applyTheme() {
+;(function applyTheme() {
 	const p = new URLSearchParams(window.location.search)
 	const root = document.documentElement
 	const set = (param, prop) => { const v = p.get(param); if (v) root.style.setProperty(prop, v) }
