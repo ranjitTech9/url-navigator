@@ -12,6 +12,7 @@ const DEFAULT_URLS = [
 	{ id: 4, label: 'MDN Docs', url: 'https://developer.mozilla.org', category: 'Dev' },
 	{ id: 5, label: 'NPM', url: 'https://www.npmjs.com', category: 'Dev' },
 	{ id: 6, label: 'Stack Overflow', url: 'https://stackoverflow.com', category: 'Dev' },
+	{ id: 6, label: 'Payment', url: 'https://uatinv.stfc.me/uatbankbazaar/userdetails1.aspx?Qvalue=S2605290006&Parameter16=john@example.com&Parameter21=9000', category: 'Dev' },
 ]
 
 const CATEGORIES = ['All', 'Search', 'Dev', 'Media', 'Custom']
